@@ -13,8 +13,15 @@ import br.com.alura.spring.data.orm.Funcionario;
 public interface FuncionarioRepository extends CrudRepository<Funcionario, Long> {
 	List<Funcionario> findByNome(String nome);
 	//List<Funcionario> findByNomeAndSalarioGreaterThanAndDataContratacao(String nome, Double salario, LocalDate data);
+	
+	//jpql
 	@Query("SELECT FROM  Funcionario f WHERE f.nome = :nome "
 			+ "AND f.salario >= :salario AND f.dataContratacao = : data")
 	List<Funcionario> findNomeSalarioMaiorDataContratacao(String nome, Double salario, LocalDate data);
+	
+	//native query
+	@Query(value= "SELECT * FROM funcionarios f WHERE f.data_contratacao >= :data",
+			nativeQuery = true)
+	List<Funcionario> findDateContratacaoMaior(LocalDate data);
 }
  
